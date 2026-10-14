@@ -1,246 +1,136 @@
-import { View, Text, Pressable, ScrollView } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'; // Certifique-se de ter instalado
 
-type TelaAtiva =
-  | "inicio"
-  | "ordensdeservico"
-  | "clientes"
-  | "veiculos";
+export default function Inicio() {
+  // Cores base da imagem para o tema escuro
+  const colors = {
+    bg: "bg-[#121212]",        // Fundo quase preto
+    card: "bg-[#1E1E1E]",      // Fundo dos cards
+    primary: "text-[#F05A28]", // Laranja principal
+    accent: "#F05A28",        // Laranja para ícones
+    textHead: "text-white",    // Texto claro
+    textSub: "text-gray-400",  // Texto secundário
+    statusActive: "bg-[#F05A28]/20", // Laranja translúcido para 'Em Andamento'
+  };
 
-type Props = {
-  navegar: (pagina: TelaAtiva) => void;
-};
-
-export default function Inicio({ navegar }: Props) {
-  const botoes = [
-    {
-      titulo: "Clientes",
-      descricao: "Gerenciar clientes",
-      icone: "♙",
-      pagina: "clientes" as TelaAtiva,
-    },
-    {
-      titulo: "Veículos",
-      descricao: "Gerenciar veículos",
-      icone: "🚘",
-      pagina: "veiculos" as TelaAtiva,
-    },
-    {
-      titulo: "Ordens de Serviço",
-      descricao: "Acompanhar serviços",
-      icone: "🔧",
-      pagina: "ordensdeservico" as TelaAtiva,
-    },
-    {
-      titulo: "Orçamentos",
-      descricao: "Consultar orçamentos",
-      icone: "▤",
-      pagina: "ordensdeservico" as TelaAtiva,
-    },
-  ];
-
+  // Mock de dados para a lista (apenas exemplo visual)
   const ordens = [
-    {
-      numero: "#000128",
-      cliente: "João Silva",
-      veiculo: "VW Gol • ABC-1234",
-      status: "EM ANDAMENTO",
-      cor: "#D97732",
-      data: "13/10/2026",
-    },
-    {
-      numero: "#000127",
-      cliente: "Maria Oliveira",
-      veiculo: "Chevrolet Onix • XYZ-5678",
-      status: "FINALIZADA",
-      cor: "#27845B",
-      data: "12/10/2026",
-    },
-    {
-      numero: "#000126",
-      cliente: "Carlos Rodrigues",
-      veiculo: "Ford Ranger • QRS-9012",
-      status: "ABERTA",
-      cor: "#3978BD",
-      data: "11/10/2026",
-    },
+    { id: '#000128', veiculo: 'VW - Gol 1.0 2018', data: '18/06/2024', status: 'EM ANDAMENTO' },
+    { id: '#000127', veiculo: 'Ford - Ka 1.5 2019', data: '17/06/2024', status: 'FINALIZADA', statusColor: 'bg-green-900/40 text-green-400' },
   ];
 
   return (
-    <View className="flex-1 bg-[#090B0D]">
-      <StatusBar style="light" />
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 35 }}
-      >
-        {/* Cabeçalho */}
-        <View className="px-5 pt-5 pb-5 border-b border-[#292D32]">
-          <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center">
-              <View className="w-14 h-14 rounded-full border-2 border-[#D97732] items-center justify-center">
-                <Text className="text-2xl font-extrabold text-[#D97732]">
-                  MW
-                </Text>
-              </View>
-
-              <View className="ml-3">
-                <Text className="text-2xl font-extrabold text-[#D97732]">
-                  MW
-                </Text>
-                <Text className="text-xs font-bold tracking-[3px] text-white">
-                  MECÂNICA
-                </Text>
-              </View>
-            </View>
-
-            <View className="w-11 h-11 rounded-full bg-[#191C20] border border-[#34383D] items-center justify-center">
-              <Text className="text-xl text-[#D97732]">⚙</Text>
-            </View>
+    <SafeAreaView className={`flex-1 ${colors.bg}`}>
+      <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
+        
+        {/* HEADER - LOGO E PERFIL */}
+        <View className="flex-row justify-between items-center py-6 mt-2 border-b-2 border-[#F05A28] mb-8">
+          <View className="flex-row items-center gap-2">
+             {/* Simulação do logo MW MECÂNICA */}
+             <MaterialCommunityIcons name="wrench-outline" size={32} color={colors.accent} />
+             <View>
+                <Text className={`${colors.textHead} text-2xl font-extrabold tracking-tighter`}>MW</Text>
+                <Text className={`${colors.textHead} text-xs tracking-widest uppercase`}>Mecânica</Text>
+             </View>
           </View>
+          <TouchableOpacity className="p-2 rounded-full border border-gray-700">
+            <Feather name="user" size={24} color={colors.accent} />
+          </TouchableOpacity>
         </View>
 
-        {/* Boas-vindas */}
-        <View className="px-5 mt-7 mb-6">
-          <Text className="text-xs font-bold tracking-[3px] text-[#D97732]">
-            PAINEL PRINCIPAL
-          </Text>
-
-          <Text className="text-3xl font-extrabold text-white mt-2">
-            Olá, André!
-          </Text>
-
-          <Text className="text-sm text-gray-400 mt-2">
-            Bem-vindo ao sistema da MW Mecânica.
-          </Text>
+        {/* SAUDAÇÃO */}
+        <View className="mb-8">
+          <Text className={`${colors.textHead} text-3xl font-bold`}>Olá, André</Text>
+          <Text className={`${colors.textSub} text-base`}>Bem-vindo ao sistema da MW Mecânica</Text>
         </View>
 
-        {/* Atalhos */}
-        <View className="px-5">
-          <Text className="text-lg font-bold text-white mb-4">
-            Acesso rápido
-          </Text>
-
-          <View className="flex-row flex-wrap justify-between">
-            {botoes.map((botao) => (
-              <Pressable
-                key={botao.titulo}
-                onPress={() => navegar(botao.pagina)}
-                className="w-[48%] min-h-[145px] mb-4 rounded-2xl bg-[#15181B] border border-[#303438] p-4 justify-between active:bg-[#25201C]"
-              >
-                <View className="w-12 h-12 rounded-xl bg-[#352419] items-center justify-center">
-                  <Text className="text-2xl text-[#D97732]">
-                    {botao.icone}
-                  </Text>
-                </View>
-
-                <View className="mt-4">
-                  <Text className="text-base font-bold text-white">
-                    {botao.titulo}
-                  </Text>
-
-                  <Text className="text-xs text-gray-400 mt-1">
-                    {botao.descricao}
-                  </Text>
-                </View>
-
-                <View className="absolute right-4 top-4">
-                  <Text className="text-xl text-[#D97732]">›</Text>
-                </View>
-              </Pressable>
-            ))}
-          </View>
+        {/* BOTOES DE ATALHO (MENU) */}
+        <View className="flex-row flex-wrap justify-between gap-4 mb-8">
+          <MenuCard icon="users" label="Clientes" colors={colors} />
+          <MenuCard icon="truck" label="Veículos" colors={colors} />
+          <MenuCard icon="file-text" label="Ordens de Serviço" colors={colors} />
+          <MenuCard icon="dollar-sign" label="Orçamentos" colors={colors} />
         </View>
 
-        {/* Ordens de Serviço */}
-        <View className="px-5 mt-5">
-          <View className="flex-row items-center justify-between mb-5">
-            <View className="flex-row items-center flex-1">
-              <View className="w-1 h-8 rounded-full bg-[#D97732] mr-3" />
-
-              <View>
-                <Text className="text-xl font-bold text-white">
-                  Ordens de Serviço
-                </Text>
-
-                <Text className="text-xs text-gray-400 mt-1">
-                  Acompanhe os últimos serviços
-                </Text>
-              </View>
+        {/* SEÇÃO ORDENS DE SERVIÇO (LISTA) */}
+        <View className="mb-6">
+          <View className="flex-row justify-between items-center mb-4">
+            <View className="flex-row items-center gap-2">
+                <View className="w-1.5 h-6 bg-[#F05A28] rounded" />
+                <Text className={`${colors.textHead} text-xl font-semibold`}>Ordens de Serviço</Text>
             </View>
-
-            <Pressable
-              onPress={() => navegar("ordensdeservico")}
-              className="py-2 pl-2"
-            >
-              <Text className="text-sm font-bold text-[#D97732]">
-                Ver todas ›
-              </Text>
-            </Pressable>
+            <TouchableOpacity className="flex-row items-center gap-1">
+              <Text className={`${colors.primary} text-sm font-medium`}>Ver todas</Text>
+              <Feather name="chevron-right" size={16} color={colors.accent} />
+            </TouchableOpacity>
           </View>
 
-          {ordens.map((ordem) => (
-            <Pressable
-              key={ordem.numero}
-              onPress={() => navegar("ordensdeservico")}
-              className="bg-[#15181B] border border-[#303438] rounded-2xl p-4 mb-3"
-            >
-              <View className="flex-row items-center justify-between">
-                <Text className="text-sm font-extrabold text-white">
-                  OS {ordem.numero}
-                </Text>
-
-                <View
-                  style={{ backgroundColor: ordem.cor + "26" }}
-                  className="rounded-full px-2 py-1"
-                >
-                  <Text
-                    style={{ color: ordem.cor }}
-                    className="text-[10px] font-extrabold"
-                  >
-                    {ordem.status}
-                  </Text>
+          {/* ITENS DA LISTA */}
+          {ordens.map((item, index) => (
+            <TouchableOpacity key={index} className={`${colors.card} p-5 rounded-2xl mb-4 flex-row items-center justify-between`}>
+              <View className="flex-1 pr-4">
+                <View className="flex-row items-center justify-between mb-2">
+                    <View className={`${item.statusColor || colors.statusActive} px-3 py-1 rounded-full`}>
+                        <Text className={`text-xs font-bold ${item.statusColor ? '' : colors.primary}`}>{item.status}</Text>
+                    </View>
+                    <View className="flex-row items-center gap-1.5">
+                        <Feather name="calendar" size={14} color={colors.accent} />
+                        <Text className={`${colors.textSub} text-xs`}>{item.data}</Text>
+                    </View>
                 </View>
+                <Text className={`${colors.textHead} text-lg font-bold`}>{item.id}</Text>
+                <Text className={`${colors.textSub} text-sm`}>{item.veiculo}</Text>
               </View>
-
-              <View className="flex-row items-center mt-4">
-                <View className="w-11 h-11 rounded-xl bg-[#29221D] items-center justify-center">
-                  <Text className="text-xl">🔧</Text>
-                </View>
-
-                <View className="flex-1 ml-3">
-                  <Text className="text-sm font-bold text-white">
-                    {ordem.cliente}
-                  </Text>
-
-                  <Text className="text-xs text-gray-400 mt-1">
-                    {ordem.veiculo}
-                  </Text>
-
-                  <Text className="text-xs text-gray-500 mt-1">
-                    {ordem.data}
-                  </Text>
-                </View>
-
-                <Text className="text-2xl text-[#D97732]">›</Text>
-              </View>
-            </Pressable>
+              <Feather name="chevron-right" size={20} color={colors.accent} />
+            </TouchableOpacity>
           ))}
+          
+          {/* Adicionando um item extra "Aguardando Peças" como na imagem */}
+          <TouchableOpacity className={`${colors.card} p-5 rounded-2xl mb-4 flex-row items-center justify-between`}>
+              <View className="flex-1 pr-4">
+                <View className="flex-row items-center justify-between mb-2">
+                    <View className={`bg-gray-700/50 px-3 py-1 rounded-full`}>
+                        <Text className={`text-xs font-bold text-gray-300`}>AGUARDANDO PEÇAS</Text>
+                    </View>
+                    <View className="flex-row items-center gap-1.5">
+                        <Feather name="calendar" size={14} color={colors.accent} />
+                        <Text className={`${colors.textSub} text-xs`}>12/06/2024</Text>
+                    </View>
+                </View>
+                <Text className={`${colors.textHead} text-lg font-bold`}>#000125</Text>
+                <Text className={`${colors.textSub} text-sm`}>Fiat - Argo 1.3 2021</Text>
+              </View>
+              <Feather name="chevron-right" size={20} color={colors.accent} />
+            </TouchableOpacity>
+
         </View>
 
-        {/* Rodapé */}
-        <View className="items-center mt-5 px-5">
-          <View className="w-full h-px bg-[#292D32] mb-5" />
+        {/* Mantendo o texto original no final, conforme sua tela original */}
+        {/* <Text className="text-center text-lg text-gray-700 mt-4 mb-8">
+            Bem-vindo ao nosso aplicativo!
+        </Text> */}
 
-          <Text className="text-xs font-bold tracking-[2px] text-[#D97732]">
-            MW MECÂNICA
-          </Text>
-
-          <Text className="text-xs text-gray-500 mt-2">
-            Gestão automotiva simplificada
-          </Text>
-        </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
+
+// Componente auxiliar para os cards de menu
+interface MenuCardProps {
+    icon: keyof typeof Feather.glyphMap;
+    label: string;
+    colors: any;
+}
+
+const MenuCard = ({ icon, label, colors }: MenuCardProps) => (
+    <TouchableOpacity className={`${colors.card} w-[47%] p-6 rounded-2xl flex-col justify-between h-36`}>
+        <Feather name={icon} size={32} color={colors.accent} />
+        <View className="flex-row justify-between items-center mt-4">
+            <Text className={`${colors.textHead} text-lg font-semibold flex-1 pr-2`} numberOfLines={2}>
+                {label}
+            </Text>
+            <Feather name="chevron-right" size={18} color={colors.accent} />
+        </View>
+    </TouchableOpacity>
+);
