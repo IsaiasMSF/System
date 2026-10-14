@@ -1,0 +1,14 @@
+import { View, Text } from "react-native";
+
+export default function Inicio() {
+    return (
+        <View className="flex-1 justify-center items-center bg-white p-4">
+            <Text className="text-xl font-bold mb-2 text-gray-900">
+                Inicio
+            </Text>
+            <Text className="text-center text-lg text-gray-700">
+                Bem-vindo ao nosso aplicativo!
+            </Text>
+        </View>
+    );
+}
