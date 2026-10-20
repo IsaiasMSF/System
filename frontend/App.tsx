@@ -1,3 +1,4 @@
+import "./global.css";
 import { useState } from "react";
 import { SafeAreaView, StatusBar } from "react-native";
 import Inicio from "./telas/Inicio";
