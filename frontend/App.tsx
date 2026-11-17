@@ -1,5 +1,6 @@
+
 import "./global.css";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import {
   View,
@@ -9,6 +10,8 @@ import {
   Pressable,
   Alert,
   Linking,
+  Animated,
+  Easing,
 } from "react-native";
 
 // Insira os links oficiais de download
@@ -16,6 +19,32 @@ const LINK_ANDROID = "";
 const LINK_IOS = "";
 
 export default function App() {
+
+  // ANIMAÇÃO DO BOTÃO PRINCIPAL
+  const animacaoBotao = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const animacao = Animated.loop(
+      Animated.sequence([
+        Animated.timing(animacaoBotao, {
+          toValue: 1,
+          duration: 1000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: false,
+        }),
+        Animated.timing(animacaoBotao, {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: false,
+        }),
+      ])
+    );
+
+    animacao.start();
+
+    return () => animacao.stop();
+  }, []);
 
   // Abre a loja correspondente ao celular
   const abrirDownload = async (plataforma: "android" | "ios") => {
@@ -118,26 +147,46 @@ export default function App() {
             confortável e segura.
           </Text>
 
-          {/* UX FIX 1: O botão principal foi colocado na primeira
-              área da tela, evitando que o usuário precise procurar
-              pelo download no menu ou percorrer a página. */}
+          {/* UX FIX 1: Botão principal em destaque na primeira
+              área da tela para facilitar o acesso ao download. */}
 
-          <Pressable
-            onPress={escolherDownload}
-            className="w-full bg-red-600 rounded-2xl py-5 mt-8 items-center justify-center active:bg-red-700"
+          {/* BOTÃO ANIMADO */}
+
+          <Animated.View
+            style={{
+              width: "100%",
+              marginTop: 32,
+              backgroundColor: animacaoBotao.interpolate({
+                inputRange: [0, 1],
+                outputRange: ["#DC2626", "#7F1D1D"],
+              }),
+              borderRadius: 16,
+              transform: [
+                {
+                  scale: animacaoBotao.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 1.04],
+                  }),
+                },
+              ],
+            }}
           >
-            <Text className="text-white text-xl font-black">
-              ↓  BAIXAR APLICATIVO
-            </Text>
-          </Pressable>
+            <Pressable
+              onPress={escolherDownload}
+              className="w-full py-5 items-center justify-center"
+            >
+              <Text className="text-white text-xl font-black">
+                ↓  BAIXAR APLICATIVO
+              </Text>
+            </Pressable>
+          </Animated.View>
 
           <Text className="text-gray-400 text-xs mt-3">
             GRATUITO • DISPONÍVEL PARA CELULAR
           </Text>
 
           {/* UX FIX 2: As duas lojas aparecem logo abaixo do
-              botão principal, facilitando a identificação da
-              plataforma correta pelo usuário. */}
+              botão principal para facilitar a identificação. */}
 
           <View className="flex-row w-full mt-6">
 
@@ -259,9 +308,8 @@ export default function App() {
             Sobre Nós
           </Text>
 
-          {/* UX FIX 3: O texto institucional foi deslocado para
-              depois da chamada de download, pois não deve competir
-              com a principal finalidade da página. */}
+          {/* UX FIX 3: Texto institucional posicionado depois
+              da chamada principal de download. */}
 
           <Text className="text-gray-300 text-base leading-7 mt-5">
             O Águia Sul é um aplicativo gaúcho de mobilidade urbana,
@@ -286,9 +334,8 @@ export default function App() {
             a Águia Sul sempre com você.
           </Text>
 
-          {/* UX FIX 4: A chamada para download foi repetida no
-              final da página, oferecendo outra oportunidade
-              de conversão após o usuário conhecer a empresa. */}
+          {/* UX FIX 4: Chamada para download repetida no final
+              para oferecer outra oportunidade de conversão. */}
 
           <Pressable
             onPress={escolherDownload}
