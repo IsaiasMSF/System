@@ -1,12 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 
-type Props = {
-  navegar: (pagina: string) => void;
-};
-
-export default function Inicio({ navegar }: Props) {
-  // Lista de Ordens de Serviço Recentes
   const ordensRecentes = [
     {
       id: "#000128",

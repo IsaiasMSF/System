@@ -1,52 +1,52 @@
 import "./global.css";
 import { useState } from "react";
-import { SafeAreaView, StatusBar, View, Text, TouchableOpacity } from "react-native";
+import { StatusBar, View, Text, TouchableOpacity } from "react-native";
 
-import Inicio from "./telas/Inicio";
 import Clientes from "./telas/Clientes";
 import OrdensDeServico from "./telas/OrdensDeServico";
 import Veiculos from "./telas/Veiculos";
 import Orcamentos from "./telas/Orcamentos";
+import Animada from "./telas/Animada";
 
 export default function App() {
-  const [telaAtual, setTelaAtual] = useState("inicio");
+  const [telaAtual, setTelaAtual] = useState("animada");
 
   const navegar = (pagina: string) => {
     setTelaAtual(pagina);
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#0D0F12" }}>
+    <View className="flex-1 w-full min-h-screen bg-[#0D0F12]">
       <StatusBar barStyle="light-content" backgroundColor="#0D0F12" />
 
       {/* Roteamento das Telas */}
-      {telaAtual === "inicio" && <Inicio navegar={navegar} />}
-      {telaAtual === "clientes" && <Clientes voltar={() => navegar("inicio")} />}
-      {telaAtual === "ordensdeservico" && <OrdensDeServico voltar={() => navegar("inicio")} />}
-      {telaAtual === "veiculos" && <Veiculos voltar={() => navegar("inicio")} />}
-      {telaAtual === "orcamentos" && <Orcamentos voltar={() => navegar("inicio")} />}
+      {telaAtual === "animada" && <Animada navegar={navegar} />}
+      {telaAtual === "clientes" && <Clientes voltar={() => navegar("animada")} />}
+      {telaAtual === "ordensdeservico" && <OrdensDeServico voltar={() => navegar("animada")} />}
+      {telaAtual === "veiculos" && <Veiculos voltar={() => navegar("animada")} />}
+      {telaAtual === "orcamentos" && <Orcamentos voltar={() => navegar("animada")} />}
 
       {/* Fallback para telas em desenvolvimento */}
-      {telaAtual !== "inicio" &&
+      {telaAtual !== "animada" &&
         telaAtual !== "clientes" &&
         telaAtual !== "ordensdeservico" &&
         telaAtual !== "veiculos" &&
         telaAtual !== "orcamentos" && (
-          <View style={{ flex: 1, backgroundColor: "#0D0F12", padding: 24, justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ color: "#F05A28", fontSize: 20, fontWeight: "bold", marginBottom: 8, textTransform: "uppercase" }}>
+          <View className="flex-1 w-full bg-[#0D0F12] p-6 justify-center items-center">
+            <Text className="text-[#F05A28] text-xl font-bold mb-2 uppercase">
               {telaAtual}
             </Text>
-            <Text style={{ color: "#8A8F99", textAlign: "center", marginBottom: 24 }}>
+            <Text className="text-[#8A8F99] text-center mb-6">
               Esta funcionalidade está em desenvolvimento.
             </Text>
             <TouchableOpacity
-              onPress={() => navegar("inicio")}
-              style={{ backgroundColor: "#15181E", paddingHorizontal: 24, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: "#F05A28" }}
+              onPress={() => navegar("animada")}
+              className="bg-[#15181E] px-6 py-3 rounded-xl border border-[#F05A28]"
             >
-              <Text style={{ color: "#FFFFFF", fontWeight: "bold" }}>Voltar ao Início</Text>
+              <Text className="text-white font-bold">Voltar ao Início</Text>
             </TouchableOpacity>
           </View>
         )}
-    </SafeAreaView>
+    </View>
   );
 }
