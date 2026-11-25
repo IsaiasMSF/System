@@ -1,29 +1,52 @@
+import "./global.css";
 import { useState } from "react";
-import { SafeAreaView, StatusBar } from "react-native";
-import Inicio from "./telas/Inicio";
+import { StatusBar, View, Text, TouchableOpacity } from "react-native";
+
 import Clientes from "./telas/Clientes";
+import OrdensDeServico from "./telas/OrdensDeServico";
+import Veiculos from "./telas/Veiculos";
+import Orcamentos from "./telas/Orcamentos";
+import Animada from "./telas/Animada";
 
 export default function App() {
-  const [telaAtual, setTelaAtual] = useState("inicio");
+  const [telaAtual, setTelaAtual] = useState("animada");
 
-  // Função centralizada para alternar entre as telas
   const navegar = (pagina: string) => {
     setTelaAtual(pagina);
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#121212" }}>
-      <StatusBar barStyle="light-content" backgroundColor="#121212" />
+    <View className="flex-1 w-full min-h-screen bg-[#0D0F12]">
+      <StatusBar barStyle="light-content" backgroundColor="#0D0F12" />
 
-      {/* Renderização condicional das telas do aplicativo */}
-      {telaAtual === "inicio" && <Inicio navegar={navegar} />}
-      
-      {telaAtual === "clientes" && <Clientes voltar={() => navegar("inicio")} />}
+      {/* Roteamento das Telas */}
+      {telaAtual === "animada" && <Animada navegar={navegar} />}
+      {telaAtual === "clientes" && <Clientes voltar={() => navegar("animada")} />}
+      {telaAtual === "ordensdeservico" && <OrdensDeServico voltar={() => navegar("animada")} />}
+      {telaAtual === "veiculos" && <Veiculos voltar={() => navegar("animada")} />}
+      {telaAtual === "orcamentos" && <Orcamentos voltar={() => navegar("animada")} />}
 
-      {/* Futuramente você pode adicionar as outras telas aqui:
-        {telaAtual === "ordensdeservico" && <OrdensDeServico voltar={() => navegar("inicio")} />}
-        {telaAtual === "veiculos" && <Veiculos voltar={() => navegar("inicio")} />}
-      */}
-    </SafeAreaView>
+      {/* Fallback para telas em desenvolvimento */}
+      {telaAtual !== "animada" &&
+        telaAtual !== "clientes" &&
+        telaAtual !== "ordensdeservico" &&
+        telaAtual !== "veiculos" &&
+        telaAtual !== "orcamentos" && (
+          <View className="flex-1 w-full bg-[#0D0F12] p-6 justify-center items-center">
+            <Text className="text-[#F05A28] text-xl font-bold mb-2 uppercase">
+              {telaAtual}
+            </Text>
+            <Text className="text-[#8A8F99] text-center mb-6">
+              Esta funcionalidade está em desenvolvimento.
+            </Text>
+            <TouchableOpacity
+              onPress={() => navegar("animada")}
+              className="bg-[#15181E] px-6 py-3 rounded-xl border border-[#F05A28]"
+            >
+              <Text className="text-white font-bold">Voltar ao Início</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+    </View>
   );
 }
